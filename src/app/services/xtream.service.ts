@@ -1,7 +1,14 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+  inject,
+  Injectable,
+  PLATFORM_ID,
+  provideAppInitializer,
+} from '@angular/core';
 import { pickBy } from 'lodash';
-import qs from 'querystring';
-require('fetch-everywhere');
+
+import { isPlatformBrowser } from '@angular/common';
+import { catchError, Observable, of } from 'rxjs';
 
 export interface IXtremeCodesConfig {
   baseUrl: string;
@@ -30,21 +37,9 @@ export interface IXtremeCodesResponse {
   providedIn: 'root',
 })
 export class XtreamService {
-  private config: IXtremeCodesConfig;
-  /**
-   * @param {{ baseUrl: string, auth: { username: string, password: string } }} [config]
-   */
-  constructor() {
-    this.config = localStorage.getItem('config')
-      ? JSON.parse(localStorage.getItem('config') || '{}')
-      : {
-          baseUrl: '',
-          auth: {
-            username: '',
-            password: '',
-          },
-        };
-  }
+  private _httpClient = inject(HttpClient);
+
+  public config!: IXtremeCodesConfig;
 
   /**
    * @param {string} baseURL
@@ -72,6 +67,11 @@ export class XtreamService {
     localStorage.setItem('config', JSON.stringify(this.config));
   }
 
+  clearConfig() {
+    this.config = {} as IXtremeCodesConfig;
+    localStorage.removeItem('config');
+  }
+
   /**
    * execute query on xtream server
    *
@@ -79,56 +79,79 @@ export class XtreamService {
    * @param {{ [ key: string ]: string }} [filter]
    * @returns {Promise<any>}
    */
-  async execute<T extends IXtremeCodesResponse>(
+  execute$<T extends IXtremeCodesResponse>(
     action: string = '',
     filter: Record<string, string> = {}
-  ): Promise<T> {
-    const query = pickBy({ ...this.config.auth, action, ...filter });
+  ): Observable<T> {
+    const query = pickBy({ ...this.config?.auth, action, ...filter });
 
-    await Promise.resolve();
-    const T = await fetch(
-      `${this.config.baseUrl}/player_api.php?${qs.stringify(query)}`
+    const queryString = Object.keys(query)
+      .map((v) => `${v}=${query[v]}`)
+      .join('&');
+
+    return this._httpClient.get<T>(
+      `${this.config.baseUrl}/player_api.php?${queryString}`
     );
-    const data: T = await T.json();
-    if (
-      action &&
-      data.hasOwnProperty('user') &&
-      data.user.hasOwnProperty('status') &&
-      data.user_info.status === 'Disabled'
-    ) {
-      return Promise.reject(new Error('account disabled'));
-    }
-    return data;
   }
 
-  async getAccountInfo() {
-    const response = await this.execute();
-    if (response.user_info.auth === 0) {
-      return Promise.reject(new Error('authentication error'));
+  public loadConfig() {
+    this.config = localStorage.getItem('config')
+      ? JSON.parse(localStorage.getItem('config') || '{}')
+      : {
+          baseUrl: '',
+          auth: {
+            username: '',
+            password: '',
+          },
+        };
+
+    if (
+      !this.config.baseUrl ||
+      !this.config.auth.username ||
+      !this.config.auth.password
+    ) {
+      return;
     }
-    return response.user_info;
+
+    return this.execute$().pipe(
+      catchError((data) => {
+        if (
+          data.hasOwnProperty('user') &&
+          data.user.hasOwnProperty('status') &&
+          data.user_info.status === 'Disabled'
+        ) {
+          this.clearConfig();
+          location.reload();
+        }
+        return of(data);
+      })
+    );
+  }
+
+  getAccountInfo() {
+    return this.execute$();
   }
 
   getLiveStreamCategory() {
-    return this.execute('get_live_categories');
+    return this.execute$('get_live_categories');
   }
 
   getVODStreamCategories() {
-    return this.execute('get_vod_categories');
+    return this.execute$('get_vod_categories');
   }
 
   /**
    * @param {string} [category]
    */
   getLiveStreams(category: string) {
-    return this.execute('get_live_streams', { category_id: category });
+    return this.execute$('get_live_streams', { category_id: category });
   }
 
   /**
    * @param {string} [category]
    */
   getVODStreams(category: string) {
-    return this.execute('get_vod_streams', { category_id: category });
+    return this.execute$('get_vod_streams', { category_id: category });
   }
 
   /**
@@ -141,13 +164,16 @@ export class XtreamService {
       return Promise.reject(new Error('Vod Id not defined'));
     }
 
-    const T = await this.execute('get_vod_info', {
+    return this.execute$('get_vod_info', {
       vod_id: id,
-    });
-    if (T.hasOwnProperty('info') && T.info.length === 0) {
-      return Promise.reject(new Error(`vod with id: ${id} not found`));
-    }
-    return T;
+    }).pipe(
+      catchError((response) => {
+        if (response.hasOwnProperty('info') && response.info.length === 0) {
+          throw new Error('VOD not found');
+        }
+        return response;
+      })
+    );
   }
 
   /**
@@ -157,7 +183,7 @@ export class XtreamService {
    * @param {number} limit You can specify a limit too, without limit the default is 4 epg listings
    */
   getEPGLivetreams(id: string, limit: string) {
-    return this.execute('get_short_epg', { stream_id: id, limit });
+    return this.execute$('get_short_epg', { stream_id: id, limit });
   }
 
   /**
@@ -166,6 +192,25 @@ export class XtreamService {
    * @param {number} id
    */
   getAllEPGLiveStreams(id: string) {
-    return this.execute('get_simple_data_table', { stream_id: id });
+    return this.execute$('get_simple_data_table', { stream_id: id });
   }
 }
+
+export const provideXtreamService = () => [
+  {
+    provide: XtreamService,
+    useClass: XtreamService,
+  },
+  provideAppInitializer(() => {
+    if (!isPlatformBrowser(inject(PLATFORM_ID))) {
+      return;
+    }
+    inject(XtreamService).loadConfig();
+  }),
+  // {
+  //   provide: APP_INITIALIZER,
+  //   useFactory: (xtream: XtreamService) => () => afterNextRender(() => xtream.loadConfig()),
+  //   deps: [XtreamService],
+  //   multi: true,
+  // },
+];
