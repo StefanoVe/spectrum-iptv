@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'notify-tailwind-select-multiple',
+  selector: 'spectrum-tailwind-select-multiple',
   templateUrl: './tailwind-select-multiple.component.html',
   standalone: false,
 })

@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
-  selector: 'notify-tailwind-input',
+  selector: 'spectrum-tailwind-input',
   templateUrl: './tailwind-input.component.html',
   styleUrls: ['./tailwind-input.component.scss'],
   standalone: false,

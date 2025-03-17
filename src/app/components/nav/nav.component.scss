@@ -1,0 +1,30 @@
+@reference "#tailwind.config";
+@reference "#notify.styles";
+
+ul {
+  @apply menu p-4 w-80 text-base-content space-y-4;
+
+  & > li {
+    @apply text-gray-50  tracking-widest font-light;
+  }
+}
+
+svg {
+  @apply size-6;
+}
+
+.nav-disabled {
+  @apply opacity-25 cursor-not-allowed pointer-events-none;
+}
+
+.desktop-show-on-hover {
+  @apply lg:opacity-0 lg:w-0  lg:group-hover/desktopController:w-full lg:group-hover/desktopController:opacity-100  overflow-hidden;
+
+  &.show-with-slide-in {
+    @apply lg:-translate-x-20  lg:group-hover/desktopController:translate-x-40 bg-red-500;
+  }
+}
+
+.desktop-hide-on-hover {
+  @apply lg:opacity-100 lg:w-full lg:h-full lg:group-hover/desktopController:h-0 lg:group-hover/desktopController:w-0 lg:group-hover/desktopController:opacity-0  overflow-hidden;
+}

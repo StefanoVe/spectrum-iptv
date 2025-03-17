@@ -8,7 +8,7 @@ export interface TailwindRadioListOption {
 }
 
 @Component({
-  selector: 'notify-tailwind-radio-list-description-panel',
+  selector: 'spectrum-tailwind-radio-list-description-panel',
   templateUrl: './tailwind-radio-list-description-panel.component.html',
   standalone: false,
 })

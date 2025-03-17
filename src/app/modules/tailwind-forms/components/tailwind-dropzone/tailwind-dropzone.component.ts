@@ -50,7 +50,7 @@ export const TAILWIND_DROPZONE_DEFAULT_LABELS = {
 };
 
 @Component({
-  selector: 'notify-tailwind-dropzone',
+  selector: 'spectrum-tailwind-dropzone',
   templateUrl: './tailwind-dropzone.component.html',
   providers: [UtilsService],
   styleUrls: ['./tailwind-dropzone.component.scss'],

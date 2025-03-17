@@ -13,7 +13,7 @@ import { TailwindFormsService } from '../../services/tailwind-forms.service';
 export type TailwindAdvancedSelectOption = string;
 
 @Component({
-  selector: 'notify-tailwind-advanced-select',
+  selector: 'spectrum-tailwind-advanced-select',
   templateUrl: './tailwind-advanced-select.component.html',
   styleUrl: './tailwind-advanced-select.component.scss',
   standalone: false,

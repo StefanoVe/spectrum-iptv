@@ -1,0 +1,159 @@
+<div
+  class="flex flex-col items-center group/searchBar smooth focus-within:-translate-y-30"
+>
+  <h1 class="text-4xl font-bold text-white mb-5">Cosa vuoi guardare oggi?</h1>
+  <div class="flex gap-1 mb-2 justify-center">
+    <button class="badge !rounded-md badge-soft badge-primary">
+      Stranger Things
+    </button>
+    <button class="badge !rounded-md badge-soft badge-primary">Avengers</button>
+    <button class="badge !rounded-md badge-soft badge-primary">Shrek</button>
+    <button class="badge !rounded-md badge-soft badge-primary">Sonic</button>
+    <button class="badge !rounded-md badge-soft badge-primary">
+      Person of interest
+    </button>
+  </div>
+  <div
+    class="mt-5 hover:scale-105 smooth group-focus-within/searchBar:scale-105"
+  >
+    <div
+      class="relative w-fit flex justify-center"
+      [ngClass]="{
+        'opacity-50 cursor-not-allowed pointer-events-none': loading
+      }"
+    >
+      <input
+        type="text"
+        [placeholder]="searchBarPlaceholder$ | async"
+        [formControl]="searchValue"
+        class="rounded-full border border-primary p-2 w-[30rem] outline-primary shadow-md shadow-primary/20 backdrop-blur-md bg-white/5 text-lg text-white px-5 smooth hover:shadow-lg focus:shadow-xl group-focus-within/searchBar:w-[40rem] pl-10 group-focus-within/searchBar:pl-5"
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6 absolute top-2.5 left-2.5 text-primary group-focus-within/searchBar:-translate-x-4 group-focus-within/searchBar:opacity-0 smooth"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+        />
+      </svg>
+    </div>
+
+    @if (searchResults$ | async; as searchResults) { @if(searchResults.length) {
+    <div
+      class="w-full opacity-0 absolute h-0 group-focus-within/searchBar:h-auto group-focus-within/searchBar:opacity-100 smooth group-focus-within/searchBar:!delay-300 mt-2"
+    >
+      <ul
+        class="list bg-white/10 backdrop-blur rounded-box shadow-md max-h-[50vh] overflow-auto"
+      >
+        @for (result of searchResults; track result.num) {
+        <li>
+          <button
+            class="list-row hover:brightness-75 cursor-pointer smooth active:scale-95 text-start w-full"
+          >
+            <div class="h-full flex items-center shrink-0">
+              <img
+                class="aspect-[9/16] h-[11rem] w-[7rem] rounded-md object-cover shrink-0 poster"
+                [src]="result.cover || result.stream_icon"
+              />
+            </div>
+
+            <div class="flex flex-col !w-full">
+              <div class="font-semibold text-white">{{ result.name }}</div>
+              <div class="text-xs uppercase opacity-60">
+                {{ result.genre }}
+              </div>
+              <div class="text-xs my-2">
+                <div class="rating rating-half">
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-1"
+                    aria-label="1 star"
+                    [attr.aria-current]="result.rating >= 1 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-2"
+                    aria-label="1 star"
+                    [attr.aria-current]="result.rating >= 2 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-1"
+                    aria-label="2 star"
+                    [attr.aria-current]="result.rating > 3 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-2"
+                    aria-label="2 star"
+                    [attr.aria-current]="result.rating > 4 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-1"
+                    aria-label="3 star"
+                    [attr.aria-current]="result.rating > 5 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-2"
+                    aria-label="3 star"
+                    [attr.aria-current]="result.rating > 6 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-1"
+                    aria-label="4 star"
+                    [attr.aria-current]="result.rating > 7 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-2"
+                    aria-label="4 star"
+                    [attr.aria-current]="result.rating > 8 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-1"
+                    aria-label="5 star"
+                    [attr.aria-current]="result.rating > 9 ? 'true' : 'false'"
+                  ></div>
+                  <div
+                    class="mask mask-star-2 bg-primary mask-half-2"
+                    aria-label="5 star"
+                    [attr.aria-current]="result.rating > 10 ? 'true' : 'false'"
+                  ></div>
+                </div>
+              </div>
+              <p
+                class="text-xs my-auto opacity-80 text-white mt-2 h-24 line-clamp-[6] whitespace-pre-line w-full"
+              >
+                {{ result.plot }}
+              </p>
+
+              <button class="btn mt-1">
+                <svg
+                  class="size-[1.2em]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <g
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                    ></path>
+                  </g>
+                </svg>
+                <span>La mia lista</span>
+              </button>
+            </div>
+          </button>
+        </li>
+        }
+      </ul>
+    </div>
+    } }
+  </div>
+</div>

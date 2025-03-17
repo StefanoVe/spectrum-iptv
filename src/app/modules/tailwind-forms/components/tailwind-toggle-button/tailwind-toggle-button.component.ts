@@ -8,7 +8,7 @@ const TOGGLE_CONTROL_ACESSOR = {
 };
 
 @Component({
-  selector: 'notify-tailwind-toggle-button',
+  selector: 'spectrum-tailwind-toggle-button',
   providers: [TOGGLE_CONTROL_ACESSOR],
   templateUrl: './tailwind-toggle-button.component.html',
   standalone: false,

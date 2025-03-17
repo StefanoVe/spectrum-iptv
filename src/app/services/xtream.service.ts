@@ -8,21 +8,14 @@ import {
 import { pickBy } from 'lodash';
 
 import { isPlatformBrowser } from '@angular/common';
-import { catchError, Observable, of } from 'rxjs';
-
-export interface IXtremeCodesConfig {
-  baseUrl: string;
-  auth: {
-    username: string;
-    password: string;
-  };
-}
-
-export interface IXtremeCodesResponse {
-  user: Record<string, unknown>;
-  user_info: { status: string; auth: number };
-  info: string;
-}
+import { catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
+import {
+  IXtreamCodesMovie,
+  IXtreamCodesShow,
+  IXtremeCodesConfig,
+  IXtremeCodesUserResponse,
+  XtreamCatalog,
+} from '../interfaces/xtream.interface';
 
 /**
  * @version 2.x
@@ -79,7 +72,7 @@ export class XtreamService {
    * @param {{ [ key: string ]: string }} [filter]
    * @returns {Promise<any>}
    */
-  execute$<T extends IXtremeCodesResponse>(
+  execute$<T = IXtremeCodesUserResponse>(
     action: string = '',
     filter: Record<string, string> = {}
   ): Observable<T> {
@@ -113,19 +106,21 @@ export class XtreamService {
       return;
     }
 
-    return this.execute$().pipe(
-      catchError((data) => {
-        if (
-          data.hasOwnProperty('user') &&
-          data.user.hasOwnProperty('status') &&
-          data.user_info.status === 'Disabled'
-        ) {
-          this.clearConfig();
-          location.reload();
-        }
-        return of(data);
-      })
-    );
+    return this.execute$()
+      .pipe(
+        catchError((data) => {
+          if (
+            data.hasOwnProperty('user') &&
+            data.user.hasOwnProperty('status') &&
+            data.user_info.status === 'Disabled'
+          ) {
+            this.clearConfig();
+            location.reload();
+          }
+          return of(data);
+        })
+      )
+      .subscribe();
   }
 
   getAccountInfo() {
@@ -186,6 +181,22 @@ export class XtreamService {
     return this.execute$('get_short_epg', { stream_id: id, limit });
   }
 
+  getCatalog(): Observable<XtreamCatalog> {
+    return combineLatest([
+      this.execute$<IXtreamCodesShow[]>('get_series'),
+      this.execute$<IXtreamCodesMovie[]>('get_vod_streams'),
+    ]).pipe(
+      tap((data) => console.log(data[1])),
+      map(
+        ([series, movies]) =>
+          [...series, ...movies].map((v) => ({
+            ...v,
+            rating: Number(v.rating),
+          })) as XtreamCatalog
+      )
+    );
+  }
+
   /**
    * GET ALL EPG for LIVE Streams (same as stalker portal, but it will print all epg listings regardless of the day)
    *
@@ -207,10 +218,4 @@ export const provideXtreamService = () => [
     }
     inject(XtreamService).loadConfig();
   }),
-  // {
-  //   provide: APP_INITIALIZER,
-  //   useFactory: (xtream: XtreamService) => () => afterNextRender(() => xtream.loadConfig()),
-  //   deps: [XtreamService],
-  //   multi: true,
-  // },
 ];

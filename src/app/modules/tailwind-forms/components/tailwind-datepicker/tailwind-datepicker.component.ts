@@ -16,7 +16,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
-  selector: 'notify-tailwind-datepicker',
+  selector: 'spectrum-tailwind-datepicker',
   templateUrl: './tailwind-datepicker.component.html',
   standalone: false,
 })

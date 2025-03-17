@@ -13,7 +13,7 @@ import { Subject, startWith, takeUntil } from 'rxjs';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
-  selector: 'notify-tailwind-color-picker',
+  selector: 'spectrum-tailwind-color-picker',
   templateUrl: './tailwind-color-picker.component.html',
   styleUrls: ['./tailwind-color-picker.component.scss'],
   standalone: false,

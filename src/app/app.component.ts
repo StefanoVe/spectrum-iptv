@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-
-import { UtilsService } from './services/utils.service';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +9,5 @@ import { UtilsService } from './services/utils.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private router = inject(Router);
-  private utils = inject(UtilsService);
-  title = 'Spectrum (IPTV)';
-
-  ngOnInit() {}
+  constructor(@Inject(DOCUMENT) document: Document) {}
 }

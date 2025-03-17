@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
-  selector: 'notify-tailwind-textarea',
+  selector: 'spectrum-tailwind-textarea',
   templateUrl: './tailwind-textarea.component.html',
   styleUrls: ['./tailwind-textarea.component.scss'],
   standalone: false,

@@ -4,27 +4,27 @@
     class="flex flex-col gap-4 p-4"
     (submit)="onSubmit()"
   >
-    <notify-tailwind-input
+    <spectrum-tailwind-input
       [parent]="form"
       name="url"
       [validationErrors]="{
         required: ' '
       }"
-    ></notify-tailwind-input>
-    <notify-tailwind-input
+    ></spectrum-tailwind-input>
+    <spectrum-tailwind-input
       [parent]="form"
       name="username"
       [validationErrors]="{
         required: ' '
       }"
-    ></notify-tailwind-input>
-    <notify-tailwind-input
+    ></spectrum-tailwind-input>
+    <spectrum-tailwind-input
       [parent]="form"
       name="password"
       [validationErrors]="{
         required: ' '
       }"
-    ></notify-tailwind-input>
+    ></spectrum-tailwind-input>
     <div class="flex justify-end">
       <button class="btn btn-primary btn-soft" [disabled]="!form.valid">
         <svg

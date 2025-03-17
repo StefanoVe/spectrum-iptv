@@ -15,7 +15,7 @@ export interface ITailwindSelectOption {
 }
 
 @Component({
-  selector: 'notify-tailwind-select',
+  selector: 'spectrum-tailwind-select',
   templateUrl: './tailwind-select.component.html',
   standalone: false,
 })

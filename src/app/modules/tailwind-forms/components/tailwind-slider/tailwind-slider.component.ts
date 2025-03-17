@@ -14,7 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
-  selector: 'notify-tailwind-slider',
+  selector: 'spectrum-tailwind-slider',
   templateUrl: './tailwind-slider.component.html',
   standalone: false,
   styles: `

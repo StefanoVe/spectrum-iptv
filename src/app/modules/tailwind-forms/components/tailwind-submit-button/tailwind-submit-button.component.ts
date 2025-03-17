@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'notify-tailwind-submit-button',
+  selector: 'spectrum-tailwind-submit-button',
   templateUrl: './tailwind-submit-button.component.html',
   standalone: false,
 })

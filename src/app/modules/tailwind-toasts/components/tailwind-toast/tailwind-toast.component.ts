@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 import { Toast, ToastPackage, ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'notify-tailwind-toast',
+  selector: 'spectrum-tailwind-toast',
   templateUrl: './tailwind-toast.component.html',
   standalone: false,
   animations: [

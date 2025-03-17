@@ -1,0 +1,15 @@
+<div
+  class="items-center text-center flex flex-col justify-center relative w-full h-fit"
+>
+  <img
+    ngSrc="/assets/logo-{{ compact ? 'compact' : 'extended' }}.webp"
+    alt=""
+    [width]="size.width"
+    [height]="size.height"
+    priority
+  />
+  <span
+    class="text-lg tracking-widest text-left w-full -mt-[10%] -mr-[72%] text-white"
+    >{{ subtitle }}</span
+  >
+</div>

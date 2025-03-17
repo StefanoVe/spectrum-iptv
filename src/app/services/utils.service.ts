@@ -5,12 +5,47 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root',
 })
 export class UtilsService {
-  private platformId = inject(PLATFORM_ID);
+  private _platformID = inject(PLATFORM_ID);
 
   public get isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+    return isPlatformBrowser(this._platformID);
   }
-  constructor() {}
+
+  public currentTailwindMediaQuery():
+    | 'none'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl' {
+    if (!isPlatformBrowser(this._platformID)) {
+      return 'none';
+    }
+
+    const width = window?.innerWidth;
+
+    if (width >= 1536) {
+      return '2xl';
+    }
+
+    if (width >= 1280) {
+      return 'xl';
+    }
+
+    if (width >= 1024) {
+      return 'lg';
+    }
+
+    if (width >= 768) {
+      return 'md';
+    }
+
+    if (width >= 640) {
+      return 'sm';
+    }
+
+    return 'none';
+  }
 
   public asyncForEach<T = unknown>(
     array: T[],

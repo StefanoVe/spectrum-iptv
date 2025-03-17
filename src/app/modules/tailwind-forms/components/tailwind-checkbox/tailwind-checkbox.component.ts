@@ -39,7 +39,7 @@ export const CHECKBOX_PADLOCK_CLOSED: ITailwindCheckboxToggleIcon = {
 };
 
 @Component({
-  selector: 'notify-tailwind-checkbox',
+  selector: 'spectrum-tailwind-checkbox',
   templateUrl: './tailwind-checkbox.component.html',
   standalone: false,
 })
