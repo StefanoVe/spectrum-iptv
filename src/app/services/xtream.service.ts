@@ -8,10 +8,19 @@ import {
 import { pickBy } from 'lodash';
 
 import { isPlatformBrowser } from '@angular/common';
-import { catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  map,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import {
   IXtreamCodesMovie,
   IXtreamCodesShow,
+  IXtreamVODInfoResponse,
   IXtremeCodesConfig,
   IXtremeCodesUserResponse,
   XtreamCatalog,
@@ -31,6 +40,8 @@ import {
 })
 export class XtreamService {
   private _httpClient = inject(HttpClient);
+
+  public catalog$ = new BehaviorSubject<XtreamCatalog>([]);
 
   public config!: IXtremeCodesConfig;
 
@@ -154,21 +165,14 @@ export class XtreamService {
    *
    * @param {number} id This will get info such as video codecs, duration, description, directors for 1 VOD
    */
-  async getVODInfo(id: string) {
+  getVODInfo(id: string) {
     if (!id) {
-      return Promise.reject(new Error('Vod Id not defined'));
+      return throwError(() => new Error('Unknown ID'));
     }
 
-    return this.execute$('get_vod_info', {
+    return this.execute$<IXtreamVODInfoResponse>('get_vod_info', {
       vod_id: id,
-    }).pipe(
-      catchError((response) => {
-        if (response.hasOwnProperty('info') && response.info.length === 0) {
-          throw new Error('VOD not found');
-        }
-        return response;
-      })
-    );
+    });
   }
 
   /**
@@ -186,10 +190,12 @@ export class XtreamService {
       this.execute$<IXtreamCodesShow[]>('get_series'),
       this.execute$<IXtreamCodesMovie[]>('get_vod_streams'),
     ]).pipe(
-      tap((data) => console.log(data[1])),
       map(
         ([series, movies]) =>
-          [...series, ...movies].map((v) => ({
+          [
+            ...series.map((v) => ({ ...v, type: 'show' })),
+            ...movies.map((v) => ({ ...v, type: 'movie' })),
+          ].map((v) => ({
             ...v,
             rating: Number(v.rating),
           })) as XtreamCatalog

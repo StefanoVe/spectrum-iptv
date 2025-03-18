@@ -21,7 +21,9 @@ import { XtreamCatalog } from '../../interfaces/xtream.interface';
 })
 export class SearchComponent extends SSRBaseComponent {
   @Input() streams$: Observable<XtreamCatalog> = new Observable();
+
   @Output() value = new EventEmitter<string>();
+  @Output() itemClicked = new EventEmitter<XtreamCatalog[0]>();
 
   public searchResults$ = new BehaviorSubject<XtreamCatalog>([]);
   public searchBarPlaceholder$ = new BehaviorSubject<string>('');
@@ -64,11 +66,13 @@ export class SearchComponent extends SSRBaseComponent {
           if (!searchValue || searchValue?.length < 3) {
             return [];
           }
-          return streams.filter((stream) => {
-            return stream.name
-              .toLowerCase()
-              .includes(searchValue.toLowerCase());
-          });
+          return streams
+            .filter((stream) => {
+              return stream.name
+                .toLowerCase()
+                .includes(searchValue.toLowerCase());
+            })
+            .slice(0, 50);
         }),
         tap((searchResults) => {
           this.searchResults$.next(searchResults);

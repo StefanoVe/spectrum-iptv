@@ -30,9 +30,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/plyr/dist/plyr.css"
             ],
-            "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -49,8 +49,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"

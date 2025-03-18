@@ -1,8 +1,11 @@
+@reference "#tailwind.config";
+
 .poster:before {
   content: " ";
   display: block;
   position: absolute;
-  height: 50px;
-  width: 50px;
+  width: 7rem;
+  height: 11rem;
+  object-fit: cover;
   background-image: url("/assets/poster-not-found.webp");
 }

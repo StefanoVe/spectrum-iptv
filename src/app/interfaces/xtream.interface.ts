@@ -51,4 +51,138 @@ export interface IXtreamCodesMovie {
   direct_source: string;
 }
 
-export type XtreamCatalog = (IXtreamCodesShow & IXtreamCodesMovie)[];
+export type XtreamCatalog = (IXtreamCodesShow &
+  IXtreamCodesMovie & { type: 'show' | 'movie' })[];
+export interface IXtreamVODInfoResponse {
+  info: Info;
+  movie_data: Movie_data;
+}
+interface Info {
+  tmdb_id: string;
+  name: string;
+  o_name: string;
+  cover_big: string;
+  movie_image: string;
+  releasedate: string;
+  youtube_trailer: string;
+  director: string;
+  actors: string;
+  cast: string;
+  description: string;
+  plot: string;
+  age: string;
+  country: string;
+  genre: string;
+  backdrop_path: string[];
+  duration_secs: number;
+  duration: string;
+  video: Video;
+  audio: Audio;
+  bitrate: number;
+  rating: string;
+  status: string;
+}
+interface Video {
+  index: number;
+  codec_name: string;
+  codec_long_name: string;
+  profile: string;
+  codec_type: string;
+  codec_tag_string: string;
+  codec_tag: string;
+  width: number;
+  height: number;
+  coded_width: number;
+  coded_height: number;
+  closed_captions: number;
+  film_grain: number;
+  has_b_frames: number;
+  sample_aspect_ratio: string;
+  display_aspect_ratio: string;
+  pix_fmt: string;
+  level: number;
+  color_range: string;
+  color_space: string;
+  color_transfer: string;
+  color_primaries: string;
+  chroma_location: string;
+  field_order: string;
+  refs: number;
+  is_avc: string;
+  nal_length_size: string;
+  id: string;
+  r_frame_rate: string;
+  avg_frame_rate: string;
+  time_base: string;
+  start_pts: number;
+  start_time: string;
+  duration_ts: number;
+  duration: string;
+  bit_rate: string;
+  bits_per_raw_sample: string;
+  nb_frames: string;
+  extradata_size: number;
+  disposition: Disposition;
+  tags: Tags;
+}
+interface Disposition {
+  default: number;
+  dub: number;
+  original: number;
+  comment: number;
+  lyrics: number;
+  karaoke: number;
+  forced: number;
+  hearing_impaired: number;
+  visual_impaired: number;
+  clean_effects: number;
+  attached_pic: number;
+  timed_thumbnails: number;
+  captions: number;
+  descriptions: number;
+  metadata: number;
+  dependent: number;
+  still_image: number;
+}
+interface Tags {
+  language: string;
+  handler_name: string;
+  vendor_id: string;
+}
+interface Audio {
+  index: number;
+  codec_name: string;
+  codec_long_name: string;
+  profile: string;
+  codec_type: string;
+  codec_tag_string: string;
+  codec_tag: string;
+  sample_fmt: string;
+  sample_rate: string;
+  channels: number;
+  channel_layout: string;
+  bits_per_sample: number;
+  id: string;
+  r_frame_rate: string;
+  avg_frame_rate: string;
+  time_base: string;
+  start_pts: number;
+  start_time: string;
+  duration_ts: number;
+  duration: string;
+  bit_rate: string;
+  nb_frames: string;
+  extradata_size: number;
+  disposition: Disposition;
+  tags: Tags;
+}
+interface Movie_data {
+  stream_id: number;
+  name: string;
+  added: string;
+  category_id: string;
+  category_ids: number[];
+  container_extension: string;
+  custom_sid: null;
+  direct_source: string;
+}

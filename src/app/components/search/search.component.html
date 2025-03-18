@@ -54,6 +54,7 @@
         @for (result of searchResults; track result.num) {
         <li>
           <button
+            (click)="itemClicked.emit(result)"
             class="list-row hover:brightness-75 cursor-pointer smooth active:scale-95 text-start w-full"
           >
             <div class="h-full flex items-center shrink-0">

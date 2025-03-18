@@ -6,8 +6,17 @@
     [topItems]="topNav"
     [subtitle]="'Spectrum'"
   ></spectrum-nav>
+
+  @if (!(availableStreams$ | async)?.length) {
+  <div class="flex flex-col justify-center items-center size-full h-screen">
+    <spectrum-loading></spectrum-loading>
+    <label> Ottengo catalogo... </label>
+  </div>
+  } @else {
   <spectrum-search
     [streams$]="availableStreams$"
     class="my-auto w-full p-2 lg:p-5"
+    (itemClicked)="playItem($event)"
   ></spectrum-search>
+  }
 </div>

@@ -58,7 +58,7 @@ export class AuthComponent implements OnInit {
   }
 
   private _tryConnection() {
-    if (!this._xtream.config) {
+    if (!this._xtream.config?.baseUrl?.length || !this._xtream.config?.auth) {
       return;
     }
     this._xtream

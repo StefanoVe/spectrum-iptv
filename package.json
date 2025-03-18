@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "deploy": "rm -rf ./dist && npm run build && cp ./Dockerfile ./dist/spectrum-iptv && cp ./captain-definition ./dist/spectrum-iptv && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/spectrum-iptv/* && caprover deploy -t ./deploy.tar -n legio -a spectrum-iptv && rm ./deploy.tar",
     "serve:ssr:spectrum-iptv": "node dist/spectrum-iptv/server/server.mjs"
   },
   "imports": {
@@ -30,10 +31,12 @@
     "date-fns": "^4.1.0",
     "dropzone": "^6.0.0-beta.2",
     "express": "^4.18.2",
+    "hls.js": "^1.5.20",
     "lodash": "^4.17.21",
     "lodash.pickby": "^4.6.0",
     "ngx-mask": "^19.0.6",
     "ngx-toastr": "^19.0.0",
+    "plyr": "^3.7.8",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.0.14",

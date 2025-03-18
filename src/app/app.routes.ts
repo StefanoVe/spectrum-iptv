@@ -18,4 +18,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
+  {
+    path: 'watch',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/watch/watch.component').then((m) => m.WatchComponent),
+  },
 ];

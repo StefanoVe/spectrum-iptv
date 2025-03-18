@@ -1,12 +1,20 @@
-<div class="h-full flex flex-col justify-center w-full">
+<div class="h-full flex flex-col justify-center w-full items-center">
   <form
     [formGroup]="form"
-    class="flex flex-col gap-4 p-4"
+    class="flex flex-col gap-4 p-4 w-96 border border-primary/50 bg-white/5 backdrop-blur rounded-lg"
     (submit)="onSubmit()"
   >
+    <div class="flex flex-col gap-2 items-center mb-5">
+      <h1 class="text-3xl font-bold text-white text-center">Log-in</h1>
+      <small class="text-center">
+        Inserisci le credenziali per accedere al tuo server IPTV
+      </small>
+    </div>
     <spectrum-tailwind-input
       [parent]="form"
       name="url"
+      label="Indirizzo del server"
+      [titlecaseLabel]="false"
       [validationErrors]="{
         required: ' '
       }"
@@ -25,7 +33,7 @@
         required: ' '
       }"
     ></spectrum-tailwind-input>
-    <div class="flex justify-end">
+    <div class="flex justify-end mt-5">
       <button class="btn btn-primary btn-soft" [disabled]="!form.valid">
         <svg
           xmlns="http://www.w3.org/2000/svg"
