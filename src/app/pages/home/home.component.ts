@@ -24,9 +24,12 @@ export class HomeComponent extends SSRBaseComponent {
   public loading = true;
 
   override componentInitialized(): void {
+    this.titleService.setTitle('Home | Spectrum (IPTV)');
+
     if (!this.isPlatformBrowser) {
       return;
     }
+
     this.xtream.catalog$
       .pipe(
         take(1),

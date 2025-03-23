@@ -8,6 +8,7 @@ import {
   Output,
   PLATFORM_ID,
 } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -18,7 +19,7 @@ import { Subject } from 'rxjs';
 })
 export class SSRBaseComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
-
+  public titleService = inject(Title);
   @Output() public componentStable = new EventEmitter<void>();
   @Output() public componentInit = new EventEmitter<void>();
 

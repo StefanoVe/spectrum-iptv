@@ -57,8 +57,10 @@ export class WatchComponent extends SSRBaseComponent implements AfterViewInit {
         })
       )
       .subscribe((data) => {
+        console.log(data);
         this.videoInfo$.next(data.info);
         this.player.poster = data.info.backdrop_path[0] || data.info.cover_big;
+        this.titleService.setTitle(data.movie_data.name + ' | Spectrum (IPTV)');
       });
   }
 
@@ -68,7 +70,9 @@ export class WatchComponent extends SSRBaseComponent implements AfterViewInit {
 
   public get videoUrl() {
     const v = this._route.snapshot.queryParamMap.get('v');
-    return `${this._xtream.config.baseUrl}/live/${this._xtream.config.auth.username}/${this._xtream.config.auth.password}/${v}.ts`;
+    const result = `${this._xtream.config.baseUrl}/live/${this._xtream.config.auth.username}/${this._xtream.config.auth.password}/${v}.m3u8`;
+    console.log(`watching ${result}`);
+    return result;
 
     // return 'http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8';
   }
