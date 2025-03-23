@@ -1,4 +1,12 @@
-<div class="absolute top-3 left-3 z-10 group/backBtn">
+@if (loading) {
+<div
+  class="fixed w-full h-full pointer-events-none flex flex-col items-center justify-center z-20"
+>
+  <spectrum-loading></spectrum-loading>
+</div>
+}
+
+<div class="fixed top-3 left-3 z-10 group/backBtn">
   <button
     [routerLink]="returnUrl"
     class="btn delay-1000 -translate-x-40 smooth group-hover/backBtn:-translate-x-0 btn-primary btn-soft"
@@ -24,11 +32,5 @@
     <span>Indietro</span>
   </button>
 </div>
-<video id="plyrID" #plyrID controls playsinline class="!h-screen">
-  <!-- Fallback for browsers that don't support the <video> element -->
-  <a
-    href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-    download
-    >Download</a
-  >
-</video>
+
+<video id="plyrID" #plyrID controls playsinline class="h-0"></video>

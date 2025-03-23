@@ -175,6 +175,14 @@ export class XtreamService {
     });
   }
 
+  buildStreamURL(
+    streamId: number,
+    containerExtension: string,
+    streamType: string
+  ) {
+    return `${this.config.baseUrl}/${streamType}/${this.config.auth.username}/${this.config.auth.password}/${streamId}.${containerExtension}`;
+  }
+
   /**
    * GET short_epg for LIVE Streams (same as stalker portal, prints the next X EPG that will play soon)
    *
