@@ -1,0 +1,34 @@
+<div
+  class="background modalFadeIn"
+  [ngClass]="{
+    modalFadeOut: isClosing
+  }"
+  (click)="close()"
+>
+  <div class="column h-full justify-center items-center space-y-4">
+    <div class="column space-y-1 text-white" (click)="$event.stopPropagation()">
+      <p class="select-title">{{ title }}</p>
+      <div
+        class="select-subtitle dont-break-out lg:max-w-[50vh]"
+        *ngIf="subtitle.length"
+        [innerHTML]="subtitle"
+      ></div>
+    </div>
+
+    <div
+      class="column space-y-1 items-center"
+      [ngClass]="{
+        'pointer-events-none': readOnly
+      }"
+      (click)="$event.stopPropagation()"
+    >
+      @for (option of fullOptions; track $index) {
+      <button
+        class="select-button smooth {{ option.style }}"
+        (click)="handleSelection(option)"
+        [innerHTML]="option.label"
+      ></button>
+      }
+    </div>
+  </div>
+</div>

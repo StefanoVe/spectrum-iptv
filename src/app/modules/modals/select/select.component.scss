@@ -1,0 +1,33 @@
+.background {
+  @apply backdrop-blur-xl backdrop-brightness-[0.6] fixed top-0 left-0 w-screen h-screen z-[999];
+}
+
+.select-button {
+  @apply p-2 rounded-md bg-gray-800/70 text-gray-300 w-60 whitespace-nowrap hover:scale-105 active:scale-90 hover:brightness-150 text-sm truncate;
+
+  &.preferred {
+    @apply bg-white text-black scale-105 hover:scale-110 active:scale-100 m-1;
+  }
+  &.destructive {
+    @apply bg-red-500;
+  }
+  &.cancel {
+    @apply bg-gray-700/30 text-white mt-2;
+  }
+}
+
+.select-title {
+  @apply text-lg font-bold text-center px-2;
+}
+
+.select-subtitle {
+  @apply text-sm text-gray-200 text-center px-4 text-wrap;
+
+  & ul {
+    @apply flex w-full justify-start text-start;
+  }
+}
+
+.column {
+  @apply flex flex-col;
+}
