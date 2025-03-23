@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "rm -rf ./dist && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "rm -rf ./dist && npm run build && cp ./Dockerfile ./dist/spectrum-iptv && cp ./captain-definition ./dist/spectrum-iptv && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/spectrum-iptv/* && caprover deploy -t ./deploy.tar -n legio -a spectrum-iptv && rm ./deploy.tar",
+    "deploy": "npm run build && cp ./Dockerfile ./dist/spectrum-iptv && cp ./captain-definition ./dist/spectrum-iptv && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/spectrum-iptv/* && caprover deploy -t ./deploy.tar -n legio -a spectrum-iptv && rm ./deploy.tar",
     "serve:ssr:spectrum-iptv": "node dist/spectrum-iptv/server/server.mjs"
   },
   "imports": {
