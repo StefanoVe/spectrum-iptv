@@ -12,10 +12,17 @@ import {
 import { SSRBaseComponent } from '../../constructors/ssr.base.component';
 
 import { XtreamCatalog } from '../../interfaces/xtream.interface';
+import { RatingComponent } from '../rating/rating.component';
 
 @Component({
   selector: 'spectrum-search',
-  imports: [ReactiveFormsModule, FormsModule, AsyncPipe, NgClass],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    AsyncPipe,
+    NgClass,
+    RatingComponent,
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })

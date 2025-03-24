@@ -31,10 +31,10 @@ export class ModalBaseComponent<Submitted = any> implements OnInit {
   }
 
   public ngOnInit() {
-    this.onInit();
+    this.componentInitialized();
   }
 
-  public onInit(): void {
+  public componentInitialized(): void {
     return;
   }
 

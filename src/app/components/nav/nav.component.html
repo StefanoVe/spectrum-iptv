@@ -37,8 +37,10 @@
         </svg>
       </label>
 
-      <div class="flex justify-center w-8/12 mb-2 lg:w-fit lg:block">
-        <notify-app-title class="lg:hidden w-32"></notify-app-title>
+      <div
+        class="flex justify-center w-8/12 mb-2 lg:w-fit lg:block items-center"
+      >
+        <notify-app-title class="lg:hidden size-12"></notify-app-title>
       </div>
 
       <div class="relative">
@@ -224,7 +226,7 @@
 </ng-template>
 
 <ng-template #NotificationsBadge>
-  <div class="flex">
+  <div class="flex" *ngIf="notifications?.showBadge">
     @if(notifications?.count$ | async; as count) {
     <div
       class="absolute rounded-full text-xs p-0.5 bg-red-500 top-0 left-1 lg:left-3 shrink-0 grow-0 size-5 font-medium text-center"

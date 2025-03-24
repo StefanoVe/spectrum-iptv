@@ -1,22 +1,25 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { NavComponent, NavItem } from '../../components/nav/nav.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { SSRBaseComponent } from '../../constructors/ssr.base.component';
 import { XtreamCatalog } from '../../interfaces/xtream.interface';
 import { LoadingComponent } from '../../modules/loading/loading.component';
+import { VodDetailsFactory } from '../../modules/modals/vod-details/vod-details-modal.factory';
 import { XtreamService } from '../../services/xtream.service';
 
 @Component({
   imports: [SearchComponent, NavComponent, AsyncPipe, LoadingComponent],
+  providers: [VodDetailsFactory],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent extends SSRBaseComponent {
   public xtream = inject(XtreamService);
-  public router = inject(Router);
+  private _vodDetails = inject(VodDetailsFactory);
+  private _router = inject(Router);
 
   public availableStreams$ = new BehaviorSubject<XtreamCatalog>([]);
 
@@ -39,18 +42,31 @@ export class HomeComponent extends SSRBaseComponent {
           this.loading = false;
           this.availableStreams$.next(catalog);
           this.xtream.catalog$.next(catalog);
+          console.log(catalog[0]);
+          // this.itemClicked(catalog[0]);
         })
       )
       .subscribe();
   }
 
-  public playItem(item: XtreamCatalog[0]): void {
-    this.router.navigate(['/watch'], {
-      queryParams: {
-        v: item.stream_id,
-        returnUrl: this.router.url,
-      },
+  public itemClicked(item: XtreamCatalog[0]): void {
+    const ref = this._vodDetails.create({
+      vod: item,
     });
+
+    ref.instance.submitted
+      .pipe(
+        takeUntil(ref.instance.destroyed$),
+        tap(() => {
+          this._router.navigate(['/watch'], {
+            queryParams: {
+              v: item.stream_id,
+              returnUrl: this._router.url,
+            },
+          });
+        })
+      )
+      .subscribe();
   }
 }
 

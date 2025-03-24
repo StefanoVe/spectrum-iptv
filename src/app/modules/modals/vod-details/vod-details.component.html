@@ -1,1 +1,76 @@
-<p>vod-details works!</p>
+<div class="background text-xs lg:text-sm" (click)="close()">
+  <div class="column h-full items-center p-4 overflow-y-auto">
+    <div
+      class="column space-y-1 text-white rounded-2xl bg-base-100 border border-base-200 p-2 w-full relative min-h-[90svh] max-h-none"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="flex justify-end">
+        <button (click)="close()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.343 6.343a1 1 0 0 1 1.414 0L12 10.586l4.243-4.243a1 1 0 0 1 1.414 1.414L13.414 12l4.243 4.243a1 1 0 0 1-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 0 1-1.414-1.414L10.586 12 6.343 7.757a1 1 0 0 1 0-1.414Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <div class="border-b border-secondary h-1"></div>
+      </div>
+      @if (vodDetails$ | async; as vodDetails) {
+      <div
+        class="flex flex-col lg:flex-row gap-y-2 lg:gap-y-0 lg:gap-x-4 items-center p-2"
+      >
+        <div class="column lg:w-4/12 w-full items-center">
+          <img
+            [src]="vodDetails?.info?.movie_image || vod.cover || vodDetails.info.backdrop_path?.[0] "
+            alt=""
+            class="rounded-lg h-64 lg:h-full object-cover w-full object-top faded-bottom"
+          />
+        </div>
+        <div class="column lg:w-8/12 h-full mt-4 gap-y-2">
+          <h1 class="text-2xl font-bold">
+            {{ vod.name }}
+          </h1>
+
+          <spectrum-rating [rating]="vod.rating"></spectrum-rating>
+
+          <p class="opacity-80">
+            {{ vod.plot || vodDetails.info.plot }}
+          </p>
+          <p class="opacity-50">
+            {{ vodDetails.info.cast || vod.cast }}
+          </p>
+          <button
+            class="btn btn-primary w-full mt-5"
+            *ngIf="vod.type === 'movie'"
+            (click)="submitted.next(vod.stream_id); close()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>Guarda</span>
+          </button>
+        </div>
+      </div>
+      } @else {
+      <div class="w-full h-full flex items-center justify-center">
+        <spectrum-loading></spectrum-loading>
+      </div>
+      }
+    </div>
+  </div>
+</div>

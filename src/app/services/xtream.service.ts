@@ -15,6 +15,7 @@ import {
   map,
   Observable,
   of,
+  retry,
   throwError,
 } from 'rxjs';
 import {
@@ -85,7 +86,7 @@ export class XtreamService {
    */
   execute$<T = IXtremeCodesUserResponse>(
     action: string = '',
-    filter: Record<string, string> = {}
+    filter: Record<string, string | number> = {}
   ): Observable<T> {
     const query = pickBy({ ...this.config?.auth, action, ...filter });
 
@@ -93,9 +94,9 @@ export class XtreamService {
       .map((v) => `${v}=${query[v]}`)
       .join('&');
 
-    return this._httpClient.get<T>(
-      `${this.config.baseUrl}/player_api.php?${queryString}`
-    );
+    return this._httpClient
+      .get<T>(`${this.config.baseUrl}/player_api.php?${queryString}`)
+      .pipe(retry(3));
   }
 
   public loadConfig() {
@@ -161,17 +162,27 @@ export class XtreamService {
   }
 
   /**
-   * GET VOD Info
+   * GET Movie Info
    *
    * @param {number} id This will get info such as video codecs, duration, description, directors for 1 VOD
    */
-  getVODInfo(id: string) {
+  getMovieInfo(id: number) {
     if (!id) {
       return throwError(() => new Error('Unknown ID'));
     }
 
     return this.execute$<IXtreamVODInfoResponse>('get_vod_info', {
       vod_id: id,
+    });
+  }
+
+  getSeriesInfo(id: number) {
+    if (!id) {
+      return throwError(() => new Error('Unknown ID'));
+    }
+
+    return this.execute$<IXtreamVODInfoResponse>('get_series_info', {
+      series_id: id,
     });
   }
 

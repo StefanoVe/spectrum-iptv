@@ -48,7 +48,7 @@ export class WatchComponent extends SSRBaseComponent implements AfterViewInit {
 
   public override componentInitialized(): void {
     this._xtream
-      .getVODInfo(this._route.snapshot.queryParamMap.get('v') || '')
+      .getMovieInfo(Number(this._route.snapshot.queryParamMap.get('v') || '0'))
       .pipe(
         catchError((e) => {
           this._toastr.error(e, "Couldn't load stream", {
@@ -109,6 +109,11 @@ export class WatchComponent extends SSRBaseComponent implements AfterViewInit {
 
   private _setVideoData(data: IXtreamVODInfoResponse) {
     this.videoInfo$.next(data.info);
+
+    if (!data.movie_data) {
+      return;
+    }
+
     this.titleService.setTitle(data.movie_data.name + ' | Spectrum (IPTV)');
     const videoUrl = this._xtream.buildStreamURL(
       data.movie_data.stream_id,

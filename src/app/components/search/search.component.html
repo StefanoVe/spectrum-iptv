@@ -1,8 +1,12 @@
 <div
-  class="flex flex-col items-center group/searchBar smooth focus-within:-translate-y-30"
+  class="flex flex-col items-center group/searchBar smooth focus-within:-translate-y-[38vh] text-xs"
 >
-  <h1 class="text-4xl font-bold text-white mb-5">Cosa vuoi guardare oggi?</h1>
-  <div class="flex gap-1 mb-2 justify-center">
+  <h1
+    class="text-4xl font-bold text-white mb-5 text-center group-focus-within/searchBar:h-0 group-focus-within/searchBar:opacity-0 pointer-events-none"
+  >
+    Cosa vuoi guardare oggi?
+  </h1>
+  <!-- <div class="flex gap-1 mb-2 justify-center">
     <button class="badge !rounded-md badge-soft badge-primary">
       Stranger Things
     </button>
@@ -12,9 +16,9 @@
     <button class="badge !rounded-md badge-soft badge-primary">
       Person of interest
     </button>
-  </div>
+  </div> -->
   <div
-    class="mt-5 hover:scale-105 smooth group-focus-within/searchBar:scale-105"
+    class="mt-5 hover:scale-105 smooth lg:group-focus-within/searchBar:scale-105 w-full lg:w-fit"
   >
     <div
       class="relative w-fit flex justify-center"
@@ -26,7 +30,7 @@
         type="text"
         [placeholder]="searchBarPlaceholder$ | async"
         [formControl]="searchValue"
-        class="rounded-full border border-primary p-2 w-[30rem] outline-primary shadow-md shadow-primary/20 backdrop-blur-md bg-white/5 text-lg text-white px-5 smooth hover:shadow-lg focus:shadow-xl group-focus-within/searchBar:w-[40rem] pl-10 group-focus-within/searchBar:pl-5"
+        class="rounded-full border border-primary p-2 w-full lg:w-[30rem] outline-primary shadow-md shadow-primary/20 backdrop-blur-md bg-white/5 text-lg text-white px-5 smooth hover:shadow-lg focus:shadow-xl lg:group-focus-within/searchBar:w-[40rem] pl-10 group-focus-within/searchBar:pl-5"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +53,7 @@
       class="w-full opacity-0 absolute h-0 group-focus-within/searchBar:h-auto group-focus-within/searchBar:opacity-100 smooth group-focus-within/searchBar:!delay-300 mt-2"
     >
       <ul
-        class="list bg-white/10 backdrop-blur rounded-box shadow-md max-h-[50vh] overflow-auto"
+        class="list bg-white/10 backdrop-blur rounded-box shadow-md max-h-[80vh] lg:max-h-[70vh] overflow-auto"
       >
         @for (result of searchResults; track result.num) {
         <li>
@@ -70,85 +74,13 @@
                 {{ result.genre }}
               </div>
               <div class="text-xs my-2">
-                <div class="rating rating-half">
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-1"
-                    aria-label="1 star"
-                    [attr.aria-current]="result.rating >= 1 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-2"
-                    aria-label="1 star"
-                    [attr.aria-current]="result.rating >= 2 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-1"
-                    aria-label="2 star"
-                    [attr.aria-current]="result.rating > 3 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-2"
-                    aria-label="2 star"
-                    [attr.aria-current]="result.rating > 4 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-1"
-                    aria-label="3 star"
-                    [attr.aria-current]="result.rating > 5 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-2"
-                    aria-label="3 star"
-                    [attr.aria-current]="result.rating > 6 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-1"
-                    aria-label="4 star"
-                    [attr.aria-current]="result.rating > 7 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-2"
-                    aria-label="4 star"
-                    [attr.aria-current]="result.rating > 8 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-1"
-                    aria-label="5 star"
-                    [attr.aria-current]="result.rating > 9 ? 'true' : 'false'"
-                  ></div>
-                  <div
-                    class="mask mask-star-2 bg-primary mask-half-2"
-                    aria-label="5 star"
-                    [attr.aria-current]="result.rating > 10 ? 'true' : 'false'"
-                  ></div>
-                </div>
+                <spectrum-rating [rating]="result.rating"></spectrum-rating>
               </div>
               <p
                 class="text-xs my-auto opacity-80 text-white mt-2 h-24 line-clamp-[6] whitespace-pre-line w-full"
               >
                 {{ result.plot }}
               </p>
-
-              <button class="btn mt-1">
-                <svg
-                  class="size-[1.2em]"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    stroke-linejoin="round"
-                    stroke-linecap="round"
-                    stroke-width="2"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path
-                      d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-                    ></path>
-                  </g>
-                </svg>
-                <span>La mia lista</span>
-              </button>
             </div>
           </button>
         </li>

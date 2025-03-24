@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BaseFactory } from '../../../constructors';
+
+import { BaseFactory } from '../../../constructors/base.factory.service';
 import { ISelectOption, SelectComponent } from './select.component';
 
 @Injectable()

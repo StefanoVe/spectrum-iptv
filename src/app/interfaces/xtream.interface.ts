@@ -53,9 +53,11 @@ export interface IXtreamCodesMovie {
 
 export type XtreamCatalog = (IXtreamCodesShow &
   IXtreamCodesMovie & { type: 'show' | 'movie' })[];
+
 export interface IXtreamVODInfoResponse {
   info: Info;
-  movie_data: Movie_data;
+  movie_data?: Movie_data;
+  episodes?: Episodes;
 }
 interface Info {
   tmdb_id: string;
@@ -184,5 +186,140 @@ interface Movie_data {
   category_ids: number[];
   container_extension: string;
   custom_sid: null;
+  direct_source: string;
+}
+
+interface SeasonsItem {
+  name: string;
+  episode_count: string;
+  overview: string;
+  air_date: string;
+  cover: string;
+  cover_tmdb: string;
+  season_number: number;
+  cover_big: string;
+  releaseDate: string;
+  duration: string;
+}
+type Episodes = Episode[];
+interface Episode {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _3Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _4Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _5Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _6Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _7Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _8Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _9Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _10Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: string | null;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _11Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: null;
+  added: string;
+  season: number;
+  direct_source: string;
+}
+interface _12Item {
+  id: string;
+  episode_num: number;
+  title: string;
+  container_extension: string;
+  info: Info;
+  custom_sid: null;
+  added: string;
+  season: number;
   direct_source: string;
 }
